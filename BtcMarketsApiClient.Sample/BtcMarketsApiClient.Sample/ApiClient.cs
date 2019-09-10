@@ -19,7 +19,7 @@ namespace BtcMarketsApiClient.Sample
         public ApiClient()
         {
             _baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
-            _apiKey = $"{ConfigurationManager.AppSettings["ApiKey"]}:{ConfigurationManager.AppSettings["443"]}";
+            _apiKey = ConfigurationManager.AppSettings["ApiKey"];
             _privateKey = ConfigurationManager.AppSettings["PrivateKey"];
         }
 
@@ -129,9 +129,9 @@ namespace BtcMarketsApiClient.Sample
 
         private string SignMessage(string message)
         {
-            var keyBytes = Encoding.UTF8.GetBytes(_apiKey);
             var bytes = Encoding.UTF8.GetBytes(message);
-            using (var hash = new HMACSHA512(keyBytes))//SHA512.Create(keyBytes))
+
+            using (var hash = new HMACSHA512(Convert.FromBase64String(_privateKey)))
             {
                 var hashedInputeBytes = hash.ComputeHash(bytes);
                 return Convert.ToBase64String(hashedInputeBytes);
