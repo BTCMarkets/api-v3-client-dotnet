@@ -1,12 +1,10 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Net.Http;
-using System.Security.Cryptography;
+﻿using System;
 using System.Text;
+using System.Net.Http;
+using System.Configuration;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
+using Newtonsoft.Json;
 
 namespace BtcMarketsApiClient.Sample
 {
@@ -16,14 +14,14 @@ namespace BtcMarketsApiClient.Sample
         private readonly string _apiKey;
         private readonly string _privateKey;
 
-        public ApiClient()
+        public ApiClient(string baseUrl, string apiKey, string privateKey)
         {
-            _baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
-            _apiKey = ConfigurationManager.AppSettings["ApiKey"];
-            _privateKey = ConfigurationManager.AppSettings["PrivateKey"];
+            _baseUrl = baseUrl;
+            _apiKey = apiKey;
+            _privateKey = privateKey;
         }
 
-        public async Task Get(string path, string queryString)
+        public async Task<string> Get(string path, string queryString)
         {
             using (var client = new HttpClient())
             {
@@ -33,17 +31,14 @@ namespace BtcMarketsApiClient.Sample
                 var fullPath = !string.IsNullOrEmpty(queryString) ? path + "?" + queryString : path;
 
                 var response = await client.GetAsync(fullPath);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Success: " + responseString);
-                }
-                else
+                if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
-        public async Task Post(string path, string queryString, object data)
+        public async Task<string> Post(string path, string queryString, object data)
         {
             using (var client = new HttpClient())
             {
@@ -55,17 +50,14 @@ namespace BtcMarketsApiClient.Sample
                 var content = new StringContent(stringifiedData, Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync(path, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Success: " + responseString);
-                }
-                else
+                if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
-        public async Task Put(string path, string queryString, object data)
+        public async Task<string> Put(string path, string queryString, object data)
         {
             using (var client = new HttpClient())
             {
@@ -77,17 +69,14 @@ namespace BtcMarketsApiClient.Sample
                 var content = new StringContent(stringifiedData, Encoding.UTF8, "application/json");
 
                 var response = await client.PutAsync(path, content);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Success: " + responseString);
-                }
-                else
+                if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
-        public async Task Delete(string path, string queryString)
+        public async Task<string> Delete(string path, string queryString)
         {
             using (var client = new HttpClient())
             {
@@ -97,13 +86,10 @@ namespace BtcMarketsApiClient.Sample
                 var fullPath = !string.IsNullOrEmpty(queryString) ? path + "?" + queryString : path;
 
                 var response = await client.DeleteAsync(path);
-                if (response.IsSuccessStatusCode)
-                {
-                    var responseString = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("Success: " + responseString);
-                }
-                else
+                if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
+
+                return await response.Content.ReadAsStringAsync();
             }
         }
 
@@ -113,13 +99,9 @@ namespace BtcMarketsApiClient.Sample
             long now = DateTimeOffset.Now.ToUnixTimeMilliseconds();
             var message = method + path + now.ToString();
             if (!string.IsNullOrEmpty(data))
-            {
                 message += data;
-                client.DefaultRequestHeaders.Add("Content-Type", "application/json");
-            }
 
             string signature = SignMessage(message);
-            //client.DefaultRequestHeaders.Remove("Content-Type");
             client.DefaultRequestHeaders.Add("Accept", "application /json");
             client.DefaultRequestHeaders.Add("Accept-Charset", "UTF-8");
             client.DefaultRequestHeaders.Add("BM-AUTH-APIKEY", _apiKey);
