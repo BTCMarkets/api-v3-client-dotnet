@@ -5,7 +5,7 @@ namespace BtcMarketsApiClient.Sample
 {
     class Program
     {
-        private const string BaseUrl = "api.btcmarkets.net";
+        private const string BaseUrl = "https://api.btcmarkets.net";
         private const string ApiKey = "add api key here";
         private const string PrivateKey = "add private key here";
         static void Main(string[] args)
