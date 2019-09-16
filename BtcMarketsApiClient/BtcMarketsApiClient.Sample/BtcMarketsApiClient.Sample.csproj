@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="ApiClient.cs" />
     <Compile Include="Models\NewOrderModel.cs" />
+    <Compile Include="Models\ResponseModel.cs" />
     <Compile Include="Orders.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
