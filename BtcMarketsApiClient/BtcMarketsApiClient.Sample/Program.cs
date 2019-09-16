@@ -14,7 +14,7 @@ namespace BtcMarketsApiClient.Sample
 
             //Get Orders Sample
             //orders.GetOpenOrdersAsync().Wait();
-            orders.GetOrdersAsync(5).Wait();
+            orders.GetOrdersAsync().Wait();
 
 
             //Place new Order sample 

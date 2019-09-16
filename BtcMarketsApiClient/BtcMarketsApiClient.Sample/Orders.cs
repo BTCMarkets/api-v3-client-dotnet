@@ -23,14 +23,14 @@ namespace BtcMarketsApiClient.Sample
             Console.WriteLine(orders.Content);
         }
 
-        public async Task GetOrdersAsync(int limit)
+        public async Task GetOrdersAsync()
         {
-            var orders = await _apiClient.Get("/v3/orders", $"status=all&marketId=XRP-AUD&limit={limit}");
+            var orders = await _apiClient.Get("/v3/orders", $"status=all&marketId=XRP-AUD&limit=5");
 
             Console.WriteLine(orders.Content);
             var hasBefore = orders.Headers.TryGetValues("BM_BEFORE", out IEnumerable<string> befores);
             var hasAfter = orders.Headers.TryGetValues("BM-AFTER", out IEnumerable<string> afters);
-            var queryString = $"status=all&marketId=XRP-AUD&limit={limit}";
+            var queryString = $"status=all&marketId=XRP-AUD&limit=5";
 
             if (hasBefore)
                 queryString += $"&before={befores.First()}";
