@@ -13,7 +13,7 @@ namespace BtcMarketsApiClient.Sample
             var orders = new Orders(BaseUrl, ApiKey, PrivateKey);
 
             //Get Orders Sample
-
+            //orders.GetOpenOrdersAsync().Wait();
             orders.GetOrdersAsync().Wait();
 
 

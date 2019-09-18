@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
+using BtcMarketsApiClient.Sample.Models;
 
 namespace BtcMarketsApiClient.Sample
 {
@@ -21,7 +22,7 @@ namespace BtcMarketsApiClient.Sample
             _privateKey = privateKey;
         }
 
-        public async Task<string> Get(string path, string queryString)
+        public async Task<ResponseModel> Get(string path, string queryString)
         {
             using (var client = new HttpClient())
             {
@@ -34,7 +35,12 @@ namespace BtcMarketsApiClient.Sample
                 if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
 
-                return await response.Content.ReadAsStringAsync();
+                var content = await response.Content.ReadAsStringAsync();
+                return new ResponseModel
+                {
+                    Headers = response.Headers,
+                    Content = await response.Content.ReadAsStringAsync()
+                };
             }
         }
 
