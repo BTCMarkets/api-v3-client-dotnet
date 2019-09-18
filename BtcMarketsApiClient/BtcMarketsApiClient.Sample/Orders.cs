@@ -25,7 +25,7 @@ namespace BtcMarketsApiClient.Sample
 
         public async Task GetOrdersAsync()
         {
-            var orders = await _apiClient.Get("/v3/orders", $"status=all&marketId=XRP-AUD&limit=5");
+            var orders = await _apiClient.Get("/v3/orders", "status=all&limit=5");
 
             Console.WriteLine(orders.Content);
             var hasBefore = orders.Headers.TryGetValues("BM_BEFORE", out IEnumerable<string> befores);
@@ -43,7 +43,6 @@ namespace BtcMarketsApiClient.Sample
             Console.WriteLine(orders.Content);
         }
 
-
         public async Task PlaceNewOrder(NewOrderModel model)
         {
             var result = await _apiClient.Post("/v3/orders", null, model);
@@ -52,7 +51,7 @@ namespace BtcMarketsApiClient.Sample
 
         public async Task CancelOrder(string id)
         {
-            var result = await _apiClient.Delete("/v3/orders", $"id={id}");
+            var result = await _apiClient.Delete($"/v3/orders/{id}", null);
             Console.WriteLine(result);
         }
     }
