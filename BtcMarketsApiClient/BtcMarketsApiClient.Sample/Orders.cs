@@ -30,7 +30,7 @@ namespace BtcMarketsApiClient.Sample
             Console.WriteLine(orders.Content);
             var hasBefore = orders.Headers.TryGetValues("BM_BEFORE", out IEnumerable<string> befores);
             var hasAfter = orders.Headers.TryGetValues("BM-AFTER", out IEnumerable<string> afters);
-            var queryString = $"status=all&marketId=XRP-AUD&limit=5";
+            var queryString = "status=all&limit=5";
 
             if (hasBefore)
                 queryString += $"&before={befores.First()}";
