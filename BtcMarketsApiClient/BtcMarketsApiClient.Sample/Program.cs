@@ -16,7 +16,6 @@ namespace BtcMarketsApiClient.Sample
             //orders.GetOpenOrdersAsync().Wait();
             orders.GetOrdersAsync().Wait();
 
-
             //Place new Order sample 
             /*
             var newOrder = new NewOrderModel
@@ -34,6 +33,11 @@ namespace BtcMarketsApiClient.Sample
             //Cancel Order
             /*
                 orders.CancelOrder("1224732").Wait();
+            */
+
+            //Cancel All Orders
+            /*
+            orders.CancelAll().Wait();
             */
         }
     }
