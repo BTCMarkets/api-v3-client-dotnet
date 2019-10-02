@@ -55,7 +55,7 @@ namespace BtcMarketsApiClient.Sample
                 var fullPath = !string.IsNullOrEmpty(queryString) ? path + "?" + queryString : path;
                 var content = new StringContent(stringifiedData, Encoding.UTF8, "application/json");
 
-                var response = await client.PostAsync(path, content);
+                var response = await client.PostAsync(fullPath, content);
                 if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
 
@@ -74,7 +74,7 @@ namespace BtcMarketsApiClient.Sample
                 var fullPath = !string.IsNullOrEmpty(queryString) ? path + "?" + queryString : path;
                 var content = new StringContent(stringifiedData, Encoding.UTF8, "application/json");
 
-                var response = await client.PutAsync(path, content);
+                var response = await client.PutAsync(fullPath, content);
                 if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
 
@@ -91,7 +91,7 @@ namespace BtcMarketsApiClient.Sample
 
                 var fullPath = !string.IsNullOrEmpty(queryString) ? path + "?" + queryString : path;
 
-                var response = await client.DeleteAsync(path);
+                var response = await client.DeleteAsync(fullPath);
                 if (!response.IsSuccessStatusCode)
                     Console.WriteLine("Error: " + response.StatusCode.ToString());
 

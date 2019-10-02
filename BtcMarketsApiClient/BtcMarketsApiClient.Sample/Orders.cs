@@ -36,7 +36,7 @@ namespace BtcMarketsApiClient.Sample
                 queryString += $"&before={befores.First()}";
 
             if (hasAfter)
-                queryString += $"&before={afters.First()}";
+                queryString += $"&after={afters.First()}";
 
             orders = await _apiClient.Get("/v3/orders", queryString);
 
@@ -52,6 +52,12 @@ namespace BtcMarketsApiClient.Sample
         public async Task CancelOrder(string id)
         {
             var result = await _apiClient.Delete($"/v3/orders/{id}", null);
+            Console.WriteLine(result);
+        }
+
+        public async Task CancelAll()
+        {
+            var result = await _apiClient.Delete($"/v3/orders", "marketId=BTC-AUD");
             Console.WriteLine(result);
         }
     }
